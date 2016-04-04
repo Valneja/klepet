@@ -1,7 +1,9 @@
 function divElementEnostavniTekst(sporocilo) {
   var jeSmesko = sporocilo.indexOf('http://sandbox.lavbic.net/teaching/OIS/gradivo/') > -1;
-  if (jeSmesko) {
-    sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace('&lt;img', '<img').replace('png\' /&gt;', 'png\' />');
+  var jeSlika = sporocilo.indexOf('slike') > -1;
+  if (jeSmesko || jeSlika) {
+    sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace('&lt;img', '<img').replace('png\' /&gt;', 'png\' />').replace('jpg\' /&gt;', 'jpg\' />').replace('gif\' /&gt;', 'gif\' />');
+   
     return $('<div style="font-weight: bold"></div>').html(sporocilo);
   } else {
     return $('<div style="font-weight: bold;"></div>').text(sporocilo);
@@ -12,9 +14,53 @@ function divElementHtmlTekst(sporocilo) {
   return $('<div></div>').html('<i>' + sporocilo + '</i>');
 }
 
+
+/*
+function dodajSliko(sporocilo) {
+  var n = -1;
+  n = sporocilo.search("http://");
+  if(n == -1){
+     n = sporocilo.search("https://");
+  }
+  var m = -1;
+  m = sporocilo.search(".jpg");
+  if (m == -1){
+    m = sporocilo.search(".gif");
+  }
+  if (m == -1){
+    m = sporocilo.search(".png");
+  }
+  var novoSporocilo = sporocilo;
+  if( m > -1 && n > -1 && n < m){
+    var staroSporociloLink = sporocilo.substring(n, (m+4));
+    novoSporocilo = sporocilo.substring(0, n)+ "<img class='slike' src='"+staroSporociloLink+"' />"+sporocilo.substring((m+4), sporocilo.length);
+
+  }
+  if(novoSporocilo != sporocilo){
+    return novoSporocilo;
+  }
+  else{
+    return sporocilo;
+  }
+}
+*/
+
+function prikaziSliko (besedilo) {
+  var razdeli = besedilo.split((' '));
+  for(var i = 0; i < razdeli.length; i++){
+    razdeli[i] = razdeli[i].replace(new RegExp('^(http|https)://\.*(.png|.jpg|.gif)$', 'gi'), "<img class='slike' src='$&' />");
+  }
+  besedilo = razdeli.join(' ');
+   return besedilo;
+}
+
 function procesirajVnosUporabnika(klepetApp, socket) {
   var sporocilo = $('#poslji-sporocilo').val();
+  
+  sporocilo = prikaziSliko(sporocilo);
   sporocilo = dodajSmeske(sporocilo);
+   
+   
   var sistemskoSporocilo;
 
   if (sporocilo.charAt(0) == '/') {
