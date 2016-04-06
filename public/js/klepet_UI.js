@@ -25,15 +25,14 @@ function dodajVideo(sporocilo){
   for(var i = 0; i < razdeli.length; i++){
     var prvotna = razdeli[i];
     var id = razdeli[i].substring(32, razdeli[i].length);
-    razdeli[i] = razdeli[i].replace(new RegExp('^https://www.youtube.com/watch\\?v=\.*$', 'gi'), "<iframe class='video' src='https://www.youtube.com/embed/"+id+"' allowfullscreen></iframe>");
-    razdeli[i] = razdeli[i].replace(new RegExp('^/\.*$', 'gi'), " ");
+    razdeli[i] = razdeli[i].replace(new RegExp('^https://www.youtube.com/watch\\?v=\.*$', 'gi'), "<br><iframe class='video' src='https://www.youtube.com/embed/"+id+"' allowfullscreen></iframe><br>");
+    
     if(prvotna != razdeli[i]){
       razdeli[i] = prvotna + " " +razdeli[i];
     }
   }
   
   sporocilo = razdeli.join(' ');
-  console.log(sporocilo);
    return sporocilo;
 
 }
