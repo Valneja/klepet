@@ -53,11 +53,15 @@ function dodajSliko(sporocilo) {
 function prikaziSliko (besedilo) {
   var razdeli = besedilo.split((' '));
   for(var i = 0; i < razdeli.length; i++){
+    var prvotna = razdeli[i];
     razdeli[i] = razdeli[i].replace(new RegExp('^(http|https)://\.*(.png|.jpg|.gif)$', 'gi'), "<img class='slike' src='$&' />");
+    if(prvotna != razdeli[i]){
+      razdeli[i] = prvotna + " " +razdeli[i];
+    }
   }
   
   besedilo = razdeli.join(' ');
-  alert(besedilo);
+ // alert(besedilo);
    return besedilo;
 }
 
