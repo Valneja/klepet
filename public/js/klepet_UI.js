@@ -1,6 +1,5 @@
 function divElementEnostavniTekst(sporocilo) {
   var jeSmesko = sporocilo.indexOf('http://sandbox.lavbic.net/teaching/OIS/gradivo/') > -1;
-<<<<<<< HEAD
   var jeSlika = sporocilo.indexOf('slike') > -1;
   
   if (jeSmesko) {
@@ -9,23 +8,13 @@ function divElementEnostavniTekst(sporocilo) {
   if(jeSlika){
     // sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace('&lt;img', '<img').replace('png\' /&gt;', 'png\' />').replace('jpg\' /&gt;', 'jpg\' />').replace('gif\' /&gt;', 'gif\' />');
   }
-  if(jeSlika || jeSmesko){
-    return $('<div style="font-weight: bold"></div>').html(sporocilo);
-  } else {
-=======
-  var jeVideo = sporocilo.indexOf('video') > -1;
+   var jeVideo = sporocilo.indexOf('video') > -1;
   if(jeVideo){
     sporocilo = sporocilo.replace(/\&lt\;iframe/g, '<iframe').replace(/allowfullscreen&gt;&lt;\/iframe&gt;/g, 'allowfullscreen></iframe>');
   }
-  if (jeSmesko) {
-    sporocilo = sporocilo.replace(/\</g, '&lt;').replace(/\>/g, '&gt;').replace('&lt;img', '<img').replace('png\' /&gt;', 'png\' />');
-   
-  } 
-  if(jeSmesko | jeVideo){
-     return $('<div style="font-weight: bold"></div>').html(sporocilo);
-  }
-  else {
->>>>>>> youtube
+  if(jeSlika || jeSmesko || jeVideo){
+    return $('<div style="font-weight: bold"></div>').html(sporocilo);
+  } else {
     return $('<div style="font-weight: bold;"></div>').text(sporocilo);
   }
 }
@@ -34,44 +23,6 @@ function divElementHtmlTekst(sporocilo) {
   return $('<div></div>').html('<i>' + sporocilo + '</i>');
 }
 
-<<<<<<< HEAD
-
-/*
-function dodajSliko(sporocilo) {
-  var n = -1;
-  n = sporocilo.search("http://");
-  if(n == -1){
-     n = sporocilo.search("https://");
-  }
-  var m = -1;
-  m = sporocilo.search(".jpg");
-  if (m == -1){
-    m = sporocilo.search(".gif");
-  }
-  if (m == -1){
-    m = sporocilo.search(".png");
-  }
-  var novoSporocilo = sporocilo;
-  if( m > -1 && n > -1 && n < m){
-    var staroSporociloLink = sporocilo.substring(n, (m+4));
-    novoSporocilo = sporocilo.substring(0, n)+ "<img class='slike' src='"+staroSporociloLink+"' />"+sporocilo.substring((m+4), sporocilo.length);
-
-  }
-  if(novoSporocilo != sporocilo){
-    return novoSporocilo;
-  }
-  else{
-    return sporocilo;
-  }
-}
-*/
-
-function prikaziSliko (besedilo) {
-  var razdeli = besedilo.split((' '));
-  for(var i = 0; i < razdeli.length; i++){
-    var prvotna = razdeli[i];
-    razdeli[i] = razdeli[i].replace(new RegExp('^(http|https)://\.*(.png|.jpg|.gif)$', 'gi'), "<br><img class='slike' src='$&' /><br>");
-=======
 function dodajVideo(sporocilo){
   var razdeli = sporocilo.split((' '));
   for(var i = 0; i < razdeli.length; i++){
@@ -79,31 +30,21 @@ function dodajVideo(sporocilo){
     var id = razdeli[i].substring(32, razdeli[i].length);
     razdeli[i] = razdeli[i].replace(new RegExp('^https://www.youtube.com/watch\\?v=\.*$', 'gi'), "<br><iframe class='video' src='https://www.youtube.com/embed/"+id+"' allowfullscreen></iframe><br>");
     
->>>>>>> youtube
     if(prvotna != razdeli[i]){
       razdeli[i] = prvotna + " " +razdeli[i];
     }
   }
   
-<<<<<<< HEAD
-  besedilo = razdeli.join(' ');
- // alert(besedilo);
-   return besedilo;
-=======
   sporocilo = razdeli.join(' ');
    return sporocilo;
 
->>>>>>> youtube
 }
 
 function procesirajVnosUporabnika(klepetApp, socket) {
   var sporocilo = $('#poslji-sporocilo').val();
-<<<<<<< HEAD
-  
-  
-=======
   sporocilo = dodajVideo(sporocilo);
->>>>>>> youtube
+  
+  
   sporocilo = dodajSmeske(sporocilo);
   sporocilo = prikaziSliko(sporocilo);
    
