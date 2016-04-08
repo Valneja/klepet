@@ -39,6 +39,20 @@ function dodajVideo(sporocilo){
    return sporocilo;
 
 }
+function prikaziSliko (besedilo) {
+  var razdeli = besedilo.split((' '));
+  for(var i = 0; i < razdeli.length; i++){
+    var prvotna = razdeli[i];
+    razdeli[i] = razdeli[i].replace(new RegExp('^(http|https)://\.*(.png|.jpg|.gif)$', 'gi'), "<br><img class='slike' src='$&' /><br>");
+    if(prvotna != razdeli[i]){
+      razdeli[i] = prvotna + " " +razdeli[i];
+    }
+  }
+  
+  besedilo = razdeli.join(' ');
+ // alert(besedilo);
+   return besedilo;
+}
 
 function procesirajVnosUporabnika(klepetApp, socket) {
   var sporocilo = $('#poslji-sporocilo').val();
